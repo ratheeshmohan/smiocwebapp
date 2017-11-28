@@ -15,7 +15,7 @@ const renderInputField = field => (
   />
 );
 
-const ResetPassword = ({ handleSubmit, onSubmit, loginErrors }) => (
+const ForceChangePassword = ({ handleSubmit, onSubmit, loginErrors }) => (
   <div className="wrapper">
     <Form className="form-signin" onSubmit={handleSubmit}>
       <h3>Reset password</h3>
@@ -77,12 +77,12 @@ const ResetPassword = ({ handleSubmit, onSubmit, loginErrors }) => (
   </div>
 );
 
-ResetPassword.propTypes = {
+ForceChangePassword.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired
 };
 
 export default reduxForm({
   // a unique name for the form
-  form: "resetPassword"
-})(ResetPassword);
+  form: "forceChangePassword"
+})(ForceChangePassword);
