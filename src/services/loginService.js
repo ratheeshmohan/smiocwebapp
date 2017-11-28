@@ -18,8 +18,6 @@ var userPool = new CognitoUserPool({
   ClientId: appConfig.ClientId
 });
 
-var cognitoUser;
-
 export const login = (username, password, callbacks) => {
   var authenticationData = {
     Username: username,
@@ -30,18 +28,33 @@ export const login = (username, password, callbacks) => {
     Pool: userPool
   };
 
-  cognitoUser = new CognitoUser(userData);
   var authenticationDetails = new AuthenticationDetails(authenticationData);
+  var cognitoUser = new CognitoUser(userData);
   cognitoUser.authenticateUser(authenticationDetails, callbacks);
 };
 
-export const completeNewPasswordChallenge = (username, password, callbacks) => {
-  if (!cognitoUser) {
-    throw "Call login before using this method";
-  }
+export const completeNewPasswordChallenge = (
+  username,
+  password,
+  newPassword,
+  callbacks
+) => {
+  var authenticationData = {
+    Username: username,
+    Password: password
+  };
+  var userData = {
+    Username: username,
+    Pool: userPool
+  };
 
-  cognitoUser.completeNewPasswordChallenge(password, {}, callbacks);
+  var authenticationDetails = new AuthenticationDetails(authenticationData);
+  var cognitoUser = new CognitoUser(userData);
+  cognitoUser.authenticateUser(authenticationDetails, {
+    newPasswordRequired: function(userAttributes, requiredAttributes) {
+      cognitoUser.completeNewPasswordChallenge(newPassword, {}, callbacks);
+    }
+  });
 };
 
-var loginInstance = login;
-export default loginInstance;
+export default login;

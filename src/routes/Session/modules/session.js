@@ -10,9 +10,10 @@ import { browserHistory } from "react-router";
 export const LOGIN_ASYNC = "LOGIN_ASYNC";
 export const LOGIN_ASYNC_FORCE_CHANGE_PASSWORD_REQUIRED =
   "LOGIN_ASYNC_FORCE_CHANGE_PASSWORD_REQUIRED";
-  export const LOGIN_ASYNC_FORCE_CHANGE_PASSWORD_FAILED =
+export const LOGIN_ASYNC_FORCE_CHANGE_PASSWORD_FAILED =
   "LOGIN_ASYNC_FORCE_CHANGE_PASSWORD_FAILED";
 export const LOGIN_ASYNC_FAILED = "LOGIN_ASYNC_FAILED";
+export const LOGIN_ASYNC_SUCCEED = "LOGIN_ASYNC_SUCCEED";
 
 // ------------------------------------
 // Actions
@@ -21,15 +22,16 @@ export const loginAsync = (username, password) => {
   return (dispatch, getState) => {
     dispatch({
       type: LOGIN_ASYNC,
-      username
+      username,
+      password
     });
 
     login(username, password, {
       onSuccess: function(result) {
-        console.log(result); //temp
-
-        var acessToken = result.idToken.jwtToken;
-        console.log(acessToken); //temp
+        dispatch({
+          type: LOGIN_ASYNC_SUCCEED,
+          acessToken: result.idToken.jwtToken
+        });
       },
       onFailure: function(err) {
         dispatch({
@@ -47,13 +49,16 @@ export const loginAsync = (username, password) => {
   };
 };
 
-export const forceChangePasswordAsync = (username, password) => {
+export const forceChangePasswordAsync = (username, newPassword) => {
   return (dispatch, getState) => {
-    completeNewPasswordChallenge(username, password, {
+    var originalPassword = getState().session.password;
+
+    completeNewPasswordChallenge(username, originalPassword, newPassword, {
       onSuccess: function(result) {
-        var acessToken = result.idToken.jwtToken;
-        console.log(result); //temp
-        console.log(acessToken); //temp
+        dispatch({
+          type: LOGIN_ASYNC_SUCCEED,
+          acessToken: result.idToken.jwtToken
+        });
       },
       onFailure: function(err) {
         dispatch({
@@ -65,7 +70,6 @@ export const forceChangePasswordAsync = (username, password) => {
   };
 };
 
-//Tkk61r>Q
 export const changePasswordAsync = (username, password) => {
   return (dispatch, getState) => {
     alert("TODO");
@@ -86,6 +90,7 @@ const ACTION_HANDLERS = {
   [LOGIN_ASYNC]: (state, action) => ({
     ...state,
     username: action.username,
+    password: action.password,
     sessionStatus: "SESSION_ESTABLISHMENT_IN_PROGRESS",
     errorMessage: ""
   }),
@@ -105,6 +110,13 @@ const ACTION_HANDLERS = {
     ...state,
     sessionStatus: "SESSION_ESTABLISHMENT_IN_PROGRESS_RESET_PASSWORD_FAILED",
     errorMessage: action.error
+  }),
+  [LOGIN_ASYNC_SUCCEED]: (state, action) => ({
+    ...state,
+    sessionStatus: "SESSION_ESTABLISHMENT_SUCCEED",
+    sessionToken: action.acessToken,
+    errorMessage: "",
+    password: ""
   })
 };
 
@@ -113,6 +125,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   username: "",
+  password: "",
   sessionToken: "",
   sessionStatus: "",
   errorMessage: ""
