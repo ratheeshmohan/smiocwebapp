@@ -2,7 +2,8 @@
 import CoreLayout from "../layouts/PageLayout/PageLayout";
 import Home from "./Home";
 import CounterRoute from "./Counter";
-import { signInRoute, changePasswordRoute } from "./Session";
+import { signInRoute } from "./Session";
+import { changePasswordRoute } from "./ChangePassword";
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */

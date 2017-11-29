@@ -1,6 +1,7 @@
 import {
   login,
-  completeNewPasswordChallenge
+  completeNewPasswordChallenge,
+  changePassword
 } from "../../../services/loginService";
 import { browserHistory } from "react-router";
 
@@ -70,9 +71,9 @@ export const forceChangePasswordAsync = (username, newPassword) => {
   };
 };
 
-export const changePasswordAsync = (username, password) => {
+export const changePasswordAsync = (username, password, newPassword) => {
   return (dispatch, getState) => {
-    alert("TODO");
+    changePassword(username, password, newPassword);
     //TODO
   };
 };

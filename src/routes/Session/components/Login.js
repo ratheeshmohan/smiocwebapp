@@ -50,7 +50,7 @@ export const Login = ({ handleSubmit, onSubmit, loginErrors }) => (
           component={renderInputField}
         />
       </FormGroup>
-      {loginErrors && <div className="login-error">{loginErrors}</div>}
+      {loginErrors && <div className="feedback-error">{loginErrors}</div>}
       <FormGroup check>
         <Button color="primary" size="lg" block>
           Login

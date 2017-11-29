@@ -1,6 +1,7 @@
 import { injectReducer } from "../../store/reducers";
-export const signInRoute = store => ({
-  path: "signin",
+
+export const changePasswordRoute = store => ({
+  path: "changepassword",
   /*  Async getComponent is only invoked when route matches   */
   getComponent(nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point
@@ -10,18 +11,19 @@ export const signInRoute = store => ({
       require => {
         /*  Webpack - use require callback to define
           dependencies for bundling   */
-        const SignIn = require("./containers/SignInContainer").default;
-        const reducer = require("./modules/session").default;
+        const ChangePassword = require("./containers/ChangePasswordContainer")
+          .default;
+        const reducer = require("./modules/changePassword").default;
 
-        /*  Add the reducer to the store on key 'session'  */
-        injectReducer(store, { key: "session", reducer });
+        /*  Add the reducer to the store on key 'changePassword'  */
+        injectReducer(store, { key: "changePassword", reducer });
 
         /*  Return getComponent   */
-        cb(null, SignIn);
+        cb(null, ChangePassword);
 
         /* Webpack named bundle   */
       },
-      "signin"
+      "changepassword"
     );
   }
 });

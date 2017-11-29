@@ -67,7 +67,7 @@ const ForceChangePassword = ({ handleSubmit, onSubmit, loginErrors }) => (
         />
       </FormGroup>
 
-      {loginErrors && <div className="login-error">{loginErrors}</div>}
+      {loginErrors && <div className="feedback-error">{loginErrors}</div>}
       <FormGroup check>
         <Button color="primary" size="lg" block>
           Change password

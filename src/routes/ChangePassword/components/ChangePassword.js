@@ -1,5 +1,5 @@
 import React from "react";
-import "./Login.scss";
+import "./ChangePassword.scss";
 import { Button, Form, Input, Label, FormGroup } from "reactstrap";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
@@ -15,11 +15,10 @@ const renderInputField = field => (
   />
 );
 
-export const Login = ({ handleSubmit, onSubmit, loginErrors }) => (
+export const ChangePassword = ({ handleSubmit, onSubmit, changeStatus }) => (
   <div className="wrapper">
     <Form className="form-signin" onSubmit={handleSubmit}>
       <h2>Change password</h2>
-
       <FormGroup check>
         <Label for="inputUsername" className="sr-only">
           Email address
@@ -44,7 +43,7 @@ export const Login = ({ handleSubmit, onSubmit, loginErrors }) => (
           type="password"
           name="password"
           id="inputPassword"
-          placeholder="Password"
+          placeholder="Enter current password"
           required
           autoFocus
           component={renderInputField}
@@ -60,7 +59,7 @@ export const Login = ({ handleSubmit, onSubmit, loginErrors }) => (
           type="password"
           name="newPassword"
           id="inputNewPassword"
-          placeholder="New password"
+          placeholder="Enter new password"
           required
           autoFocus
           component={renderInputField}
@@ -83,7 +82,15 @@ export const Login = ({ handleSubmit, onSubmit, loginErrors }) => (
         />
       </FormGroup>
 
-      {loginErrors && <div className="login-error">{loginErrors}</div>}
+      {changeStatus == "failure" && (
+        <div className="feedback-error">
+          Failed to change password. TODO: Add passwod policy{" "}
+        </div>
+      )}
+      {changeStatus == "success" && (
+        <div className="feedback-success"> Password changed successfully!</div>
+      )}
+
       <FormGroup check>
         <Button color="primary" size="lg" block>
           Change
@@ -93,7 +100,7 @@ export const Login = ({ handleSubmit, onSubmit, loginErrors }) => (
   </div>
 );
 
-Login.propTypes = {
+ChangePassword.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired
 };
@@ -101,4 +108,4 @@ Login.propTypes = {
 export default reduxForm({
   // a unique name for the form
   form: "changepassword"
-})(Login);
+})(ChangePassword);

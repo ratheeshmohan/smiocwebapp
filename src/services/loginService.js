@@ -57,4 +57,34 @@ export const completeNewPasswordChallenge = (
   });
 };
 
+export const changePassword = (
+  username,
+  oldPassword,
+  newPassword,
+  callbacks
+) => {
+  var authenticationData = {
+    Username: username,
+    Password: oldPassword
+  };
+  var userData = {
+    Username: username,
+    Pool: userPool
+  };
+
+  var cognitoUser = new CognitoUser(userData);
+  var authenticationDetails = new AuthenticationDetails(authenticationData);
+
+  cognitoUser.authenticateUser(authenticationDetails, {
+    onSuccess: function(userAttributes, requiredAttributes) {
+      cognitoUser.changePassword(oldPassword, newPassword, callbacks);
+    },
+    onFailure: function(err) {
+
+      callbacks(err.message)
+    }
+
+  });
+};
+
 export default login;
