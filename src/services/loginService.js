@@ -80,11 +80,22 @@ export const changePassword = (
       cognitoUser.changePassword(oldPassword, newPassword, callbacks);
     },
     onFailure: function(err) {
-
-      callbacks(err.message)
+      callbacks(err.message);
     }
-
   });
+};
+
+export const resetPassword = (email, callbacks) => {
+  var authenticationData = {
+    Username: email
+   };
+  var userData = {
+    Username: email,
+    Pool: userPool
+  };
+
+  var cognitoUser = new CognitoUser(userData);
+  cognitoUser.forgotPassword(callbacks);
 };
 
 export default login;
