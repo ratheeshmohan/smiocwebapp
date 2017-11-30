@@ -41,7 +41,10 @@ class Header extends React.Component {
                 <NavLink href="/profile/">My profile</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/login/">Logout</NavLink>
+                <NavLink href="/changepassword/">Change password</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/signin/">Logout</NavLink>
               </NavItem>
             </Nav>
           </Collapse>

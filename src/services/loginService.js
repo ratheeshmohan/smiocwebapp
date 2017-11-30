@@ -88,7 +88,7 @@ export const changePassword = (
 export const resetPassword = (email, callbacks) => {
   var authenticationData = {
     Username: email
-   };
+  };
   var userData = {
     Username: email,
     Pool: userPool
@@ -96,6 +96,23 @@ export const resetPassword = (email, callbacks) => {
 
   var cognitoUser = new CognitoUser(userData);
   cognitoUser.forgotPassword(callbacks);
+};
+
+export const resetPasswordConfirm = (
+  email,
+  verificationCode,
+  newPassword,
+  callbacks
+) => {
+  var authenticationData = {
+    Username: email
+  };
+  var userData = {
+    Username: email,
+    Pool: userPool
+  };
+  var cognitoUser = new CognitoUser(userData);
+  cognitoUser.confirmPassword(verificationCode, newPassword, callbacks);
 };
 
 export default login;

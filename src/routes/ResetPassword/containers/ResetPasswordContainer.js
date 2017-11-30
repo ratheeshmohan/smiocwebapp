@@ -1,11 +1,26 @@
 import { connect } from "react-redux";
-import { resetPasswordAsync } from "../modules/resetPassword";
+import {
+  resetPasswordAsync,
+  resetPasswordConfirmAsync
+} from "../modules/resetPassword";
 import ResetPassword from "../components/ResetPassword";
 
- 
+const mapStateToProps = state => ({
+  errorMessage: state.resetPassword.errorMessage,
+  showResetPasswordConfirm:
+    state.resetPassword.status == "RESET_PASSWORD_CONFIRMATION_REQUIRED"
+});
+
 const mapDispatchToProps = {
-  onSubmit: values =>
-  resetPasswordAsync(values.email)
+
+  onResetPassword: values => resetPasswordAsync(values.email),
+
+  onResetPasswordConfirm: values =>
+    resetPasswordConfirmAsync(
+      values.email,
+      values.verificationCode,
+      values.newPassword
+    )
 };
 
-export default connect(null, mapDispatchToProps)(ResetPassword);
+export default connect(mapStateToProps, mapDispatchToProps)(ResetPassword);

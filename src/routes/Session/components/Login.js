@@ -18,8 +18,7 @@ const renderInputField = field => (
 export const Login = ({ handleSubmit, onSubmit, loginErrors }) => (
   <div className="wrapper">
     <Form className="form-signin" onSubmit={handleSubmit}>
-      <h3>Welcome</h3>
-
+      <h4>Welcome</h4>
       <FormGroup check>
         <Label for="inputUsername" className="sr-only">
           Email address
@@ -51,7 +50,7 @@ export const Login = ({ handleSubmit, onSubmit, loginErrors }) => (
         />
       </FormGroup>
       {loginErrors && <div className="feedback-error">{loginErrors}</div>}
-      <FormGroup check>
+      <FormGroup check className="action-group">
         <Button color="primary" size="lg" block>
           Login
         </Button>

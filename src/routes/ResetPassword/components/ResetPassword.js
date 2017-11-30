@@ -1,37 +1,101 @@
 import React from "react";
-import { Button, Form, Input, Label, FormGroup } from "reactstrap";
+import { Button, Form, Input, Label, FormGroup, Alert } from "reactstrap";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
+import "./ResetPassword.scss";
 
-const renderInputField = field => (
-  <Input
-    {...field.input}
-    type={field.type}
-    required={field.required}
-    placeholder={field.placeholder}
-    id={field.id}
-    autoFocus
-  />
-);
+const renderInputField = field => <Input {...field.input} {...field} />;
 
-export const ResetPassword = ({ handleSubmit, onSubmit, changeStatus }) => (
+export const ResetPassword = ({
+  handleSubmit,
+  showResetPasswordConfirm,
+  errorMessage,
+  onResetPasswordConfirm,
+  onResetPassword
+}) => (
   <div className="wrapper">
     <Form className="form-signin" onSubmit={handleSubmit}>
-      <h2>Reset password</h2>
+      <h4>Reset password</h4>
       <FormGroup check>
-        <Label for="inputUsername">Enter your email address</Label>
         <Field
           type="email"
           name="email"
           id="email"
-          placeholder="Email address"
+          placeholder="Enter your email address"
           required
           autoFocus
+          readOnly={showResetPasswordConfirm}
           component={renderInputField}
         />
       </FormGroup>
+
+      {showResetPasswordConfirm && (
+        <div>
+          <Alert color="primary">
+            A verification code has been sent to your above email. Please enter
+            details below and reset your password.
+          </Alert>
+          <FormGroup check>
+            <Label for="inputVerificationCode" className="sr-only">
+              Reset code
+            </Label>
+            <Field
+              type="text"
+              name="verificationCode"
+              id="inputVerificationCode"
+              placeholder="Verification code"
+              required
+              autoFocus
+              component={renderInputField}
+            />
+          </FormGroup>
+
+          <FormGroup check>
+            <Label for="inputNewPassword" className="sr-only">
+              New password
+            </Label>
+            <Field
+              type="password"
+              name="newPassword"
+              id="inputNewPassword"
+              placeholder="Enter new password"
+              required
+              autoFocus
+              component={renderInputField}
+            />
+          </FormGroup>
+
+          <FormGroup check>
+            <Label for="inputConfirmNewPassword" className="sr-only">
+              New password
+            </Label>
+            <Field
+              type="password"
+              name="confirmPassword"
+              id="inputConfirmNewPassword"
+              placeholder="Re-enter new password"
+              required
+              autoFocus
+              component={renderInputField}
+            />
+          </FormGroup>
+        </div>
+      )}
+
+      {errorMessage && <div className="feedback-error">{errorMessage}</div>}
+
       <FormGroup check>
-        <Button color="primary" size="lg" block>
+        <Button
+          color="primary"
+          size="lg"
+          block
+          onClick={handleSubmit(
+            values =>
+              showResetPasswordConfirm
+                ? onResetPasswordConfirm(values)
+                : onResetPassword(values)
+          )}
+        >
           Reset password
         </Button>
       </FormGroup>
@@ -40,7 +104,8 @@ export const ResetPassword = ({ handleSubmit, onSubmit, changeStatus }) => (
 );
 
 ResetPassword.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+  onResetPasswordConfirm: PropTypes.func.isRequired,
+  onResetPassword: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired
 };
 

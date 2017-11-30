@@ -1,4 +1,7 @@
-import { resetPassword as resetLoginPassword } from "../../../services/loginService";
+import {
+  resetPassword as resetLoginPassword,
+  resetPasswordConfirm
+} from "../../../services/loginService";
 import { browserHistory } from "react-router";
 
 // ------------------------------------
@@ -6,6 +9,9 @@ import { browserHistory } from "react-router";
 // ------------------------------------
 export const RESET_PASSWORD = "RESET_PASSWORD";
 export const RESET_PASSWORD_CONFIRM = "RESET_PASSWORD_CONFIRM";
+export const RESET_PASSWORD_CONFIRM_IN_PROGRESS =
+  "RESET_PASSWORD_CONFIRM_IN_PROGRESS";
+
 export const RESET_PASSWORD_SUCCEED = "RESET_PASSWORD_SUCCEED";
 export const RESET_PASSWORD_FAILED = "RESET_PASSWORD_FAILED";
 
@@ -34,8 +40,35 @@ export const resetPasswordAsync = email => (dispatch, getState) => {
   });
 };
 
+export const resetPasswordConfirmAsync = (
+  email,
+  verificationCode,
+  password
+) => (dispatch, getState) => {
+  
+  dispatch({
+    type: RESET_PASSWORD_CONFIRM_IN_PROGRESS,
+    email
+  });
+
+  resetPasswordConfirm(email, verificationCode, password, {
+    onFailure: err => {
+      dispatch({
+        type: RESET_PASSWORD_FAILED,
+        errorMessage: err.message
+      });
+    },
+    onSuccess: () => {
+      dispatch({
+        type: RESET_PASSWORD_SUCCEED
+      });
+    }
+  });
+};
+
 export const actions = {
-  resetPasswordAsync
+  resetPasswordAsync,
+  resetPasswordConfirmAsync
 };
 
 // ------------------------------------
@@ -61,6 +94,12 @@ const ACTION_HANDLERS = {
     email: action.email,
     status: "RESET_PASSWORD_FAILED",
     errorMessage: action.errorMessage
+  }),
+
+  [RESET_PASSWORD_CONFIRM]: (state, action) => ({
+    ...state,
+    email: action.email,
+    status: "RESET_PASSWORD_CONFIRMATION_REQUIRED"
   })
 };
 

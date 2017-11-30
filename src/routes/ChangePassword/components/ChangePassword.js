@@ -18,7 +18,7 @@ const renderInputField = field => (
 export const ChangePassword = ({ handleSubmit, onSubmit, changeStatus }) => (
   <div className="wrapper">
     <Form className="form-signin" onSubmit={handleSubmit}>
-      <h2>Change password</h2>
+      <h4>Change password</h4>
       <FormGroup check>
         <Label for="inputUsername" className="sr-only">
           Email address
