@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import createStore from './store/createStore'
 import './styles/main.scss'
+import '../node_modules/material-components-web/dist/material-components-web.css'
 
 // Store Initialization
 // ------------------------------------
