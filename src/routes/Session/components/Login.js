@@ -1,6 +1,6 @@
 import React from "react";
 import "./Login.scss";
-import { Button, Form, Input, Label, FormGroup } from "reactstrap";
+import { Button, Form, Input, Label, Alert, FormGroup } from "reactstrap";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
 
@@ -56,6 +56,9 @@ export const Login = ({ handleSubmit, onSubmit, loginErrors }) => (
         </Button>
         <a href="/resetpassword">Forgot password</a>
       </FormGroup>
+      <Alert color="info">
+        If you need a new logn, please contact <b>smioc.sydney@gmail.com</b>
+      </Alert>
     </Form>
   </div>
 );

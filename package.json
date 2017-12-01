@@ -21,7 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "amazon-cognito-identity-js": "^1.26.0",
-    "bootstrap": "^4.0.0-alpha",
+    "bootstrap": "^v4.0.0-beta",
     "compression": "^1.6.2",
     "express": "^4.14.0",
     "object-assign": "^4.1.1",

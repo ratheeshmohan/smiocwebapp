@@ -7,12 +7,14 @@ import ResetPassword from "../components/ResetPassword";
 
 const mapStateToProps = state => ({
   errorMessage: state.resetPassword.errorMessage,
+  resetSuccess: state.resetPassword.status == "RESET_PASSWORD_SUCCEED",
   showResetPasswordConfirm:
-    state.resetPassword.status == "RESET_PASSWORD_CONFIRMATION_REQUIRED"
+    ["RESET_PASSWORD_FAILED", "RESET_PASSWORD_CONFIRMATION_REQUIRED"].indexOf(
+      state.resetPassword.status
+    ) >= 0
 });
 
 const mapDispatchToProps = {
-
   onResetPassword: values => resetPasswordAsync(values.email),
 
   onResetPasswordConfirm: values =>
