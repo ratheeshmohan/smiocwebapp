@@ -14,8 +14,8 @@ export const createRoutes = store => ({
   indexRoute: Home,
   childRoutes: [
     signInRoute(store),
-    changePasswordRoute(store),
-    resetPasswordRoute(store)
+   // changePasswordRoute(store),
+    //resetPasswordRoute(store)
   ]
 });
 

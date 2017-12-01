@@ -1,9 +1,52 @@
 import React from "react";
-import "./Login.scss";
-import { Button, Form, Input, Label, FormGroup } from "reactstrap";
+//import "./Login.scss";
+//import { Button, Form, Input, Label, FormGroup } from "reactstrap";
 import PropTypes from "prop-types";
-import { Field, reduxForm } from "redux-form";
+import { reduxForm } from "redux-form";
+import { Button, TextField } from "../../../uiElements/uiComponents";
+import { Elevation, Grid, GridCell } from "rmwc";
 
+export const Login = ({ handleSubmit, onSubmit, loginErrors }) => (
+  <Grid>
+    <GridCell span="4">
+      <Elevation z={5} className="wrapper">
+        <form onSubmit={handleSubmit}>
+          <div>
+            <TextField
+              type="email"
+              label="Email address"
+              name="email"
+              id="inputEmail"
+             />
+          </div>
+
+          <div>
+            <TextField
+              type="password"
+              name="password"
+              id="inputPassword"
+              label="Password"
+             />
+          </div>
+
+          <div>
+            {loginErrors && <div className="feedback-error">{loginErrors}</div>}
+            <div>
+              <Button color="primary" size="lg" block>
+                Login
+              </Button>
+            </div>
+            <div>
+              <a href="/resetpassword">Forgot password</a>
+            </div>
+          </div>
+        </form>
+      </Elevation>
+    </GridCell>
+  </Grid>
+);
+
+/*
 const renderInputField = field => (
   <Input
     {...field.input}
@@ -63,7 +106,7 @@ export const Login = ({ handleSubmit, onSubmit, loginErrors }) => (
 Login.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired
-};
+};*/
 
 export default reduxForm({
   // a unique name for the form
