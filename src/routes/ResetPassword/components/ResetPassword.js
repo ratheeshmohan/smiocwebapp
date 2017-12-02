@@ -1,18 +1,9 @@
 import React from "react";
-import {
-  Button,
-  Form,
-  Input,
-  Label,
-  FormGroup,
-  Alert,
-  NavLink
-} from "reactstrap";
+import { Button, Form, Label, FormGroup, Alert, NavLink } from "reactstrap";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
 import "./ResetPassword.scss";
-
-const renderInputField = field => <Input {...field.input} {...field} />;
+import { renderInputField } from "../../../shared/reduxFormHelper";
 
 const ResetPassword = ({
   handleSubmit,

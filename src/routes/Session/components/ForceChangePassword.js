@@ -1,19 +1,9 @@
 import React from "react";
 import "./Login.scss";
-import { Button, Form, Input, Label, FormGroup } from "reactstrap";
+import { Button, Form, Label, FormGroup } from "reactstrap";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-
-const renderInputField = field => (
-  <Input
-    {...field.input}
-    type={field.type}
-    required={field.required}
-    placeholder={field.placeholder}
-    id={field.id}
-    autoFocus
-  />
-);
+import { renderInputField } from "../../../shared/reduxFormHelper";
 
 const ForceChangePassword = ({ handleSubmit, onSubmit, loginErrors }) => (
   <div className="wrapper">

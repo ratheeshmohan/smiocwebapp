@@ -3,17 +3,7 @@ import "./Login.scss";
 import { Button, Form, Input, Label, Alert, FormGroup } from "reactstrap";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-
-const renderInputField = field => (
-  <Input
-    {...field.input}
-    type={field.type}
-    required={field.required}
-    placeholder={field.placeholder}
-    id={field.id}
-    autoFocus
-  />
-);
+import { renderInputField } from "../../../shared/reduxFormHelper";
 
 export const Login = ({ handleSubmit, onSubmit, loginErrors }) => (
   <div className="wrapper">

@@ -115,4 +115,19 @@ export const resetPasswordConfirm = (
   cognitoUser.confirmPassword(verificationCode, newPassword, callbacks);
 };
 
+export const getSessionStatus = (onValid, onError) => {
+  var cognitoUser = userPool.getCurrentUser();
+  if (cognitoUser == null) {
+    onError && onError();
+    return;
+  }
+  cognitoUser.getSession(function(err, session) {
+    if (session && session.isValid()) {
+      onValid && onValid();
+    } else {
+      onError && onError();
+    }
+  });
+};
+
 export default login;
