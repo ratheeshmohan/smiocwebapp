@@ -4,7 +4,7 @@ import {
   changePassword
 } from "../../../services/loginService";
 import { browserHistory } from "react-router";
-
+import { SESSION_CREATED } from "../../../modules/session";
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -30,7 +30,10 @@ export const loginAsync = (username, password) => {
     login(username, password, {
       onSuccess: function(result) {
         dispatch({
-          type: LOGIN_ASYNC_SUCCEED,
+          type: LOGIN_ASYNC_SUCCEED
+        });
+        dispatch({
+          type: SESSION_CREATED,
           acessToken: result.idToken.jwtToken
         });
       },
@@ -52,7 +55,7 @@ export const loginAsync = (username, password) => {
 
 export const forceChangePasswordAsync = (username, newPassword) => {
   return (dispatch, getState) => {
-    var originalPassword = getState().session.password;
+    var originalPassword = getState().signin.password;
 
     completeNewPasswordChallenge(username, originalPassword, newPassword, {
       onSuccess: function(result) {
@@ -92,30 +95,29 @@ const ACTION_HANDLERS = {
     ...state,
     username: action.username,
     password: action.password,
-    sessionStatus: "SESSION_ESTABLISHMENT_IN_PROGRESS",
+    status: "SIGNIN_IN_PROGRESS",
     errorMessage: ""
   }),
 
   [LOGIN_ASYNC_FAILED]: (state, action) => ({
     ...state,
-    sessionStatus: "SESSION_ESTABLISHMENT_FAILED",
+    status: "SIGNIN_IN_FAILED",
     errorMessage: action.error
   }),
 
   [LOGIN_ASYNC_FORCE_CHANGE_PASSWORD_REQUIRED]: (state, action) => ({
     ...state,
-    sessionStatus: "SESSION_ESTABLISHMENT_IN_PROGRESS_RESET_PASSWORD",
+    status: "SIGNIN_IN_PROGRESS_RESET_PASSWORD",
     errorMessage: ""
   }),
   [LOGIN_ASYNC_FORCE_CHANGE_PASSWORD_FAILED]: (state, action) => ({
     ...state,
-    sessionStatus: "SESSION_ESTABLISHMENT_IN_PROGRESS_RESET_PASSWORD_FAILED",
+    status: "SIGNIN_IN_PROGRESS_RESET_PASSWORD_FAILED",
     errorMessage: action.error
   }),
   [LOGIN_ASYNC_SUCCEED]: (state, action) => ({
     ...state,
-    sessionStatus: "SESSION_ESTABLISHMENT_SUCCEED",
-    sessionToken: action.acessToken,
+    status: "SIGNIN_IN_SUCCEED",
     errorMessage: "",
     password: ""
   })
@@ -127,12 +129,11 @@ const ACTION_HANDLERS = {
 const initialState = {
   username: "",
   password: "",
-  sessionToken: "",
-  sessionStatus: "",
+  status: "",
   errorMessage: ""
 };
 
-export default function sessionReducer(state = initialState, action) {
+export default function signinReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];
   return handler ? handler(state, action) : state;
 }

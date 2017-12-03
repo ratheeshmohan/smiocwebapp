@@ -1,28 +1,36 @@
 import React from "react";
 import { browserHistory } from "react-router";
 import { connect } from "react-redux";
-import Loader from "../components/Loader/Loader";
+import { SESSION_SET_REDIRECT_URL_AFTER_SIGNIN } from "../modules/session";
 
 class AuthenticatedRoute extends React.Component {
   componentDidMount() {
-    const { dispatch, currentURL } = this.props;
-
-    if (!isLoggedIn) {
-      setRedirectUrl(currentURL);
-      browserHistory.replace("/login");
+    if (!this.props.isLoggedIn) {
+      this.props.setRedirectUrl(this.props.currentURL);
+      browserHistory.replace("/signin");
+    } else {
+      this.props.setRedirectUrl("");
     }
   }
 
-  render = () => (isLoggedIn ? this.props.children : <Loader />);
+  render = () => (this.props.isLoggedIn ? this.props.children : null);
 }
 
-const mapStateToProps = {
-  isLoggedIn: state.session.sessionStatus == "SESSION_ESTABLISHMENT_SUCCEED",
-  currentURL: ownProps.location.pathname
+const mapStateToProps = (state, ownProps) => {
+  return {
+    isLoggedIn: state.session.token && true,
+    currentURL: ownProps.location.pathname
+  };
 };
 
-const mapDispatchToProps = {
-  //setRedirectUrl: url => loginAsync(values.username, values.password)
+const mapDispatchToProps = dispatch => {
+  return {
+    setRedirectUrl: url =>
+      dispatch({
+        type: SESSION_SET_REDIRECT_URL_AFTER_SIGNIN,
+        url
+      })
+  };
 };
 
-export default connect(mapStateToProps)(AuthenticatedRoute);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthenticatedRoute);

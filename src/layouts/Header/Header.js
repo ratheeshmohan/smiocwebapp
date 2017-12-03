@@ -8,6 +8,7 @@ import {
   NavItem,
   NavLink
 } from "reactstrap";
+import { Link } from "react-router";
 
 class Header extends React.Component {
   constructor(props) {
@@ -32,19 +33,29 @@ class Header extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/home/">Home</NavLink>
+                <NavLink tag={Link} to="/home/">
+                  Home
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/directory/">Directory</NavLink>
+                <NavLink tag={Link} to="/directory/">
+                  Directory
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/profile/">My profile</NavLink>
+                <NavLink tag={Link} to="/profile/">
+                  My profile
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/changepassword/">Change password</NavLink>
+                <NavLink tag={Link} to="/changepassword/">
+                  Change password
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/signin/">Logout</NavLink>
+                <NavLink tag={Link} to="/signin/">
+                  Logout
+                </NavLink>
               </NavItem>
             </Nav>
           </Collapse>

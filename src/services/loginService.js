@@ -115,19 +115,22 @@ export const resetPasswordConfirm = (
   cognitoUser.confirmPassword(verificationCode, newPassword, callbacks);
 };
 
-export const getSessionStatus = (onValid, onError) => {
-  var cognitoUser = userPool.getCurrentUser();
-  if (cognitoUser == null) {
-    onError && onError();
-    return;
-  }
-  cognitoUser.getSession(function(err, session) {
-    if (session && session.isValid()) {
-      onValid && onValid();
-    } else {
-      onError && onError();
+export const getSession = () =>
+  new Promise((resolve, reject) => {
+    var cognitoUser = userPool.getCurrentUser();
+    if (cognitoUser == null) {
+      reject();
+      return;
     }
+    cognitoUser.getSession(function(err, session) {
+      console.log(session);
+      if (session && session.isValid()) {
+        resolve(session);
+      } else {
+        // cognitoUser.refreshSession(session.Red)
+      }
+    });
   });
-};
 
+ 
 export default login;

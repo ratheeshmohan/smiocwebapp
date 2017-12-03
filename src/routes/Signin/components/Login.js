@@ -1,6 +1,16 @@
 import React from "react";
 import "./Login.scss";
-import { Button, Form, Input, Label, Alert, FormGroup } from "reactstrap";
+import {
+  Button,
+  Form,
+  Input,
+  Label,
+  Alert,
+  FormGroup,
+  NavLink,
+  NavItem
+} from "reactstrap";
+import { Link } from "react-router";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
 import { renderInputField } from "../../../shared/reduxFormHelper";
@@ -44,7 +54,9 @@ export const Login = ({ handleSubmit, onSubmit, loginErrors }) => (
         <Button color="primary" size="lg" block>
           Login
         </Button>
-        <a href="/resetpassword">Forgot password</a>
+        <NavLink tag={Link} to="/resetpassword">
+          Forgot password
+        </NavLink>
       </FormGroup>
       <Alert color="info">
         If you need a new logn, please contact <b>smioc.sydney@gmail.com</b>

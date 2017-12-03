@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import locationReducer from "./location";
 import { reducer as formReducer } from "redux-form";
-import sessionReducer from "../routes/Session/modules/session";
+import sessionReducer from "..//modules/session";
 
 export const makeRootReducer = asyncReducers => {
   return combineReducers({

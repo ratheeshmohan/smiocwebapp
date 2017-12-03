@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
 import "./ResetPassword.scss";
 import { renderInputField } from "../../../shared/reduxFormHelper";
+import { Link } from "react-router";
 
 const ResetPassword = ({
   handleSubmit,
@@ -121,7 +122,9 @@ const ResetProcess = (
 const ResetSuccess = () => (
   <FormGroup>
     <p>Paswword reseted successfully!</p>
-    <NavLink href="/signin">Continue signing in</NavLink>
+    <NavLink tag={Link} to="/signin">
+      Continue signing in
+    </NavLink>
   </FormGroup>
 );
 
