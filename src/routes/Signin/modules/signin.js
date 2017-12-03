@@ -32,9 +32,11 @@ export const loginAsync = (username, password) => {
         dispatch({
           type: LOGIN_ASYNC_SUCCEED
         });
+
         dispatch({
           type: SESSION_CREATED,
-          acessToken: result.idToken.jwtToken
+          token: result.token,
+          user: result.user
         });
       },
       onFailure: function(err) {

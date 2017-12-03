@@ -30,7 +30,12 @@ export const login = (username, password, callbacks) => {
 
   var authenticationDetails = new AuthenticationDetails(authenticationData);
   var cognitoUser = new CognitoUser(userData);
-  cognitoUser.authenticateUser(authenticationDetails, callbacks);
+  cognitoUser.authenticateUser(authenticationDetails, {
+    ...callbacks,
+    onSuccess: result =>
+      callbacks.onSuccess &&
+      callbacks.onSuccess(getPayload(cognitoUser.getSignInUserSession()))
+  });
 };
 
 export const completeNewPasswordChallenge = (
@@ -115,6 +120,17 @@ export const resetPasswordConfirm = (
   cognitoUser.confirmPassword(verificationCode, newPassword, callbacks);
 };
 
+const getPayload = session => {
+  let idToken = session.idToken.jwtToken;
+  let payload = session.idToken.payload;
+  let user = {
+    email: payload["cognito:username"],
+    churchId: payload["custom:churchId"],
+    role: payload["custom:role"]
+  };
+  return { token: idToken, user: user };
+};
+
 export const getSession = () =>
   new Promise((resolve, reject) => {
     var cognitoUser = userPool.getCurrentUser();
@@ -122,15 +138,21 @@ export const getSession = () =>
       reject();
       return;
     }
+
     cognitoUser.getSession(function(err, session) {
-      console.log(session);
       if (session && session.isValid()) {
-        resolve(session);
+        resolve(getPayload(session));
       } else {
-        // cognitoUser.refreshSession(session.Red)
+        let refreshToken = cognitoUser.getSignInUserSession().getRefreshToken();
+        cognitoUser.refreshSession(refreshToken, (err, session) => {
+          if (session) {
+            resolve(getPayload(session));
+          } else {
+            reject();
+          }
+        });
       }
     });
   });
 
- 
 export default login;

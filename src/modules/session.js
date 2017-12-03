@@ -11,15 +11,14 @@ export const SESSION_SET_REDIRECT_URL_AFTER_SIGNIN =
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const loadSessionAsync = () => {
+const loadSessionFromLocalStoreAsync = () => {
   return (dispatch, getState) => {
     getSession().then(
-      session => {
-        alert("sess");
-
+      result => {
         dispatch({
           type: SESSION_CREATED,
-          token
+          token: result.token,
+          user: result.user
         });
       },
       error => alert("Er")
@@ -32,7 +31,7 @@ const deleteSessionAsync = () => {
 };
 
 export const actions = {
-  loadSessionAsync,
+  loadSessionFromLocalStoreAsync,
   deleteSessionAsync
 };
 
@@ -42,12 +41,14 @@ export const actions = {
 const ACTION_HANDLERS = {
   [SESSION_CREATED]: (state, action) => ({
     ...state,
-    token: action.acessToken
+    token: action.token,
+    user: action.user
   }),
 
   [SESSION_DELETED]: (state, action) => ({
     ...state,
-    token: ""
+    token: "",
+    user: null
   }),
 
   [SESSION_SET_REDIRECT_URL_AFTER_SIGNIN]: (state, action) => ({
@@ -61,7 +62,8 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   token: "",
-  redirectUrl: ""
+  redirectUrl: "",
+  user: null
 };
 
 export default function sessionReducer(state = initialState, action) {
